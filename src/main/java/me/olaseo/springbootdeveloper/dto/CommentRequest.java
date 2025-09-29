@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class CommentRequest {
     private Long id;
     private Long articleId;
-    private String content;
+    private String commentContent;
     private String author;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

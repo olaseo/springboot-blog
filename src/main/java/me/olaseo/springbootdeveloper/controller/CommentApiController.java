@@ -1,10 +1,10 @@
 package me.olaseo.springbootdeveloper.controller;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.olaseo.springbootdeveloper.domain.Comment;
 import me.olaseo.springbootdeveloper.dto.*;
 import me.olaseo.springbootdeveloper.service.CommentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,13 +16,16 @@ public class CommentApiController {
 
     public final CommentService commentService;
 
-    @PostMapping("articles/{articleId}/comments")
-    public ResponseEntity<Comment> saveComment(@PathVariable("articleId") long id, @RequestBody AddCommentRequest request,
-                                              Principal principal) {
+    @Transactional
+    @PostMapping("/api/articles/{articleId}/comments")
+    public ResponseEntity<Comment> saveComment(@PathVariable long articleId,
+                                               @RequestBody AddCommentRequest request,
+                                               Principal principal) {
 
-        Comment savedComment = commentService.save(request, principal.getName());
-        return ResponseEntity.ok()
-                .body(savedComment);
+        request.setArticleId(articleId);
+        request.setAuthor(principal.getName());
+        Comment saved = commentService.save(request);
+        return ResponseEntity.ok(saved);
     }
 }
 

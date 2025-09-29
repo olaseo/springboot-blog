@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public class CommentResponse {
     private Long id;
     private Article articleId;
-    private String content;
+    private String commentContent;
     private String author;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public CommentResponse(Comment comment) {
-        this.content = comment.getContent();
+        this.commentContent = comment.getCommentContent();
     }
 }

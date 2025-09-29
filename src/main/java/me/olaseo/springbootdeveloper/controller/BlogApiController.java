@@ -2,12 +2,8 @@ package me.olaseo.springbootdeveloper.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.olaseo.springbootdeveloper.domain.Article;
-/*
-import me.olaseo.springbootdeveloper.domain.Comment;
-*/
 import me.olaseo.springbootdeveloper.dto.*;
 import me.olaseo.springbootdeveloper.service.BlogService;
-/*import me.olaseo.springbootdeveloper.service.CommentService;*/
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

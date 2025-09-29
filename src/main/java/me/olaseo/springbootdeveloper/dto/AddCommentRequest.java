@@ -1,29 +1,29 @@
 package me.olaseo.springbootdeveloper.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import me.olaseo.springbootdeveloper.domain.Article;
 import me.olaseo.springbootdeveloper.domain.Comment;
 
-import java.time.LocalDateTime;
-
-@NoArgsConstructor // 기본 생성자 추가
-@AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자 추가
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 public class AddCommentRequest {
 
-    private Long id;
     private Long articleId;
-    private String commentContent;
-    private String author;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-    public Comment toEntity(String userName) {
-        return Comment.builder()
-                .content(commentContent)
-                .author(author)
-                .build();
+    @NotNull
+    private String commentContent;
+
+    private String author;
+
+    public Comment toEntity(Article articleId) {
+        return new Comment(
+                articleId,
+                this.commentContent,
+                this.author
+        );
     }
 }

@@ -1,6 +1,7 @@
 package me.olaseo.springbootdeveloper.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,8 +28,8 @@ public class Comment { // Article 객체 생성
     @JoinColumn(name = "articleId", nullable = false, updatable = false)
     private Article articleId;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "commentContent", nullable = false)
+    private String commentContent;
 
     @Column(name = "author", nullable = false)
     private String author;
@@ -42,15 +43,14 @@ public class Comment { // Article 객체 생성
     private LocalDateTime updatedAt;
 
     @Builder // 빌더 패턴으로 객체 생성
-    public Comment(String author, String content) {
+    public Comment(Article articleId, String author, String commentContent) {
+        this.articleId = articleId;
+        this.commentContent = commentContent;
         this.author = author;
-        this.content = content;
     }
 
     // 내용 변경시 this로 변경.
-   public void update(String content) {
-        this.content = content;
-        this.updatedAt = updatedAt;
+   public void update(String commentContent) {
+        this.commentContent = commentContent;
     }
-
 }

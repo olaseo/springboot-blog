@@ -1,6 +1,9 @@
 const commentCreateButton = document.getElementById('commentCreate-btn');
 const commentContent = document.getElementById('commentContent');
 
+// 쿠키 또는 로컬스토리지에서 토큰 읽기
+const token = localStorage.getItem('access_token');  // 로그인 시 저장했다고 가정
+
 // isValid 함수가 정의되어 있다고 가정
 // isValid(commentContent, '댓글');
 
@@ -28,7 +31,7 @@ if (commentCreateButton) {
 
         // ✅ AJAX 요청 (콤마 누락 수정)
         $.ajax({
-            url: `/articles/${articleId}/comments`,
+            url: `/api/articles/${articleId}/comments`,
             type: 'POST',  // 대문자 권장
             contentType: 'application/json; charset=utf-8',  // ✅ 콤마 추가
             dataType: 'json',
@@ -38,7 +41,7 @@ if (commentCreateButton) {
                 console.log('댓글 등록 성공:', response);
                 // ✅ 성공 시 추가 처리
                 alert('댓글이 등록되었습니다.');
-                commentContent.value = '';  // 입력란 초기화
+                // commentContent.value = '';  // 입력란 초기화
                 // 댓글 목록 새로고침 등 추가 작업
             },
             error: function (xhr, status, error) {  // ✅ 매개변수명 명확화
