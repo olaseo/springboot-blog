@@ -2,10 +2,12 @@ package me.olaseo.springbootdeveloper.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.olaseo.springbootdeveloper.domain.Article;
-import me.olaseo.springbootdeveloper.dto.AddArticleRequest;
-import me.olaseo.springbootdeveloper.dto.ArticleResponse;
-import me.olaseo.springbootdeveloper.dto.UpdateArticleRequest;
+/*
+import me.olaseo.springbootdeveloper.domain.Comment;
+*/
+import me.olaseo.springbootdeveloper.dto.*;
 import me.olaseo.springbootdeveloper.service.BlogService;
+/*import me.olaseo.springbootdeveloper.service.CommentService;*/
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-// test1234
 @RequiredArgsConstructor
 @RestController // HTTP Response Body에 객체 데이터를 JSON 형식으로 반환하는 컨트롤러
 public class BlogApiController {

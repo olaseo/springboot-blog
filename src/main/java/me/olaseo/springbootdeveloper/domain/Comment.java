@@ -1,4 +1,3 @@
-/*
 package me.olaseo.springbootdeveloper.domain;
 
 import jakarta.persistence.*;
@@ -10,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -23,6 +23,7 @@ public class Comment { // Article 객체 생성
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @ManyToOne
     @JoinColumn(name = "articleId", nullable = false, updatable = false)
     private Article articleId;
 
@@ -47,8 +48,9 @@ public class Comment { // Article 객체 생성
     }
 
     // 내용 변경시 this로 변경.
-    public void update(String title, String content) {
+   public void update(String content) {
         this.content = content;
+        this.updatedAt = updatedAt;
     }
+
 }
-*/

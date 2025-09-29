@@ -1,15 +1,12 @@
-/*
 package me.olaseo.springbootdeveloper.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.olaseo.springbootdeveloper.domain.Comment;
-import me.olaseo.springbootdeveloper.dto.AddArticleRequest;
 import me.olaseo.springbootdeveloper.dto.AddCommentRequest;
-import me.olaseo.springbootdeveloper.dto.UpdateArticleRequest;
 import me.olaseo.springbootdeveloper.repository.CommentRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,15 +17,25 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    // 블로그 글 추가 메서드
-    public Comment save(AddCommentRequest request, String author) {
-
-        return commentRepository.save(request.toEntity(author));
+    public Comment save(AddCommentRequest request, String userName) {
+        return commentRepository.save(request.toEntity(userName));
     }
 
-     public Comment findByArticleId(String author) {
-        return commentRepository.findByArticleId(author);
+    public Comment findById(long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
     }
+
+    /*@Transactional
+    public Comment update(long id, UpdateCommentRequest request) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("not found :" + id));
+
+        authorizeCommentAuthor(article);
+        comment.update(request.getTitle(), request.getContent());
+
+        return comment;
+    }*/
 
     public void delete(long id) {
         Comment comment = commentRepository.findById(id)
@@ -38,15 +45,8 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    @Transactional
-    public Comment update(long id, UpdateArticleRequest request) {
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("not found :" + id));
-
-        authorizeCommentAuthor(comment);
-        comment.update(request.getTitle(), request.getContent());
-
-        return comment;
+    public List<Comment> findAll() {
+        return commentRepository.findAll();
     }
 
     private static void authorizeCommentAuthor(Comment comment) {
@@ -55,5 +55,5 @@ public class CommentService {
             throw new IllegalArgumentException("not authorized");
         }
     }
+
 }
-*/
