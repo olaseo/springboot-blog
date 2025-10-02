@@ -32,30 +32,6 @@ bootstrap/4.1.3/css/bootstrap.min.css">
         </div>
     </div>
 </div>
-window.onload = () => {
-findAllComment();
-}
-
-
-// 전체 댓글 조회
-function findAllComment() {
-
-const postId = [[ ${post.id} ]];
-
-$.ajax({
-url : `/posts/${postId}/comments`,
-type : 'get',
-dataType : 'json',
-async : false,
-success : function (response) {
-console.log(response);
-},
-error : function (request, status, error) {
-console.log(error)
-}
-})
-}
-출처: https://congsong.tistory.com/32#google_vignette [Let's develop:티스토리]
 <script src="/js/article.js"></script>
 </body>
 </html>

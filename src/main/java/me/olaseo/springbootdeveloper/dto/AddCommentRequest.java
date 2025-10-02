@@ -14,10 +14,10 @@ public class AddCommentRequest {
 
     private Long articleId;
 
+    private String author;
+
     @NotNull
     private String commentContent;
-
-    private String author;
 
     public Comment toEntity(Article articleId) {
         return new Comment(

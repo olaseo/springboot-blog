@@ -1,14 +1,16 @@
 package me.olaseo.springbootdeveloper.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.olaseo.springbootdeveloper.domain.Article;
 import me.olaseo.springbootdeveloper.domain.Comment;
 import me.olaseo.springbootdeveloper.dto.AddCommentRequest;
+import me.olaseo.springbootdeveloper.dto.UpdateArticleRequest;
+import me.olaseo.springbootdeveloper.dto.UpdateCommentRequest;
 import me.olaseo.springbootdeveloper.repository.BlogRepository;
 import me.olaseo.springbootdeveloper.repository.CommentRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,16 +48,16 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
     }
 
-    /*@Transactional
+    @Transactional
     public Comment update(long id, UpdateCommentRequest request) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("not found :" + id));
 
-        authorizeCommentAuthor(article);
-        comment.update(request.getTitle(), request.getContent());
+        authorizeCommentAuthor(comment);
+        comment.update(request.getContent(), request.getUpdatedAt());
 
         return comment;
-    }*/
+    }
 
     public void delete(long id) {
         Comment comment = commentRepository.findById(id)
@@ -65,7 +67,7 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    public List<Comment> findAll() {
+    public List<Comment> findAll(long articleId) {
         return commentRepository.findAll();
     }
 

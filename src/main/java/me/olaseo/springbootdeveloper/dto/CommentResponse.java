@@ -1,21 +1,23 @@
 package me.olaseo.springbootdeveloper.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.olaseo.springbootdeveloper.domain.Article;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import me.olaseo.springbootdeveloper.domain.Comment;
 
-import java.time.LocalDateTime;
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 public class CommentResponse {
-    private Long id;
-    private Article articleId;
+    private long id;
     private String commentContent;
     private String author;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public CommentResponse(Comment comment) {
+        this.id = comment.getId();
         this.commentContent = comment.getCommentContent();
+        this.author = comment.getAuthor();
     }
 }

@@ -51,7 +51,8 @@ public class WebOAuthSecurityConfig {
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests(auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/api/token")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/articles/*/comments")).authenticated()  // 댓글 API 예외
+                        .requestMatchers(new AntPathRequestMatcher("/api/articles/*/comments")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/articles/*/comments/*")).authenticated()// 댓글 API 예외
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
                         .anyRequest().permitAll()
                 )
