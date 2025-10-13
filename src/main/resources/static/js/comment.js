@@ -2,19 +2,43 @@ const commentCreateButton = document.getElementById('commentCreate-btn');
 const commentContent      = document.getElementById('commentContent');
 const token               = localStorage.getItem('access_token');
 
+$(".comment_list > div > a").click(function(){
+		var submenu = $(this).next("div.hide_view");
+		if( submenu.is(":visible") ){
+			submenu.removeClass("open");
+		}else{
+			submenu.addClass("open");
+		}
+	});
+
 function layerPop(popName){
-	var $layer = $("#"+ popName);
-	$layer.fadeIn(500).css('display', 'inline-block').wrap( '<div class="overlay_t"></div>');
-	$('body').css('overflow','hidden');
+    var $layer = $("#" + popName);
+
+    // 이미 오버레이로 감싸져 있지 않은 경우에만 wrap
+    if (!$layer.parent().hasClass('overlay_t')) {
+        $layer.wrap('<div class="overlay_t"></div>');
+    }
+
+    // fadeIn 완료 후 display 변경
+    $layer.fadeIn(500, function() {
+        $(this).css('display', 'inline-block');
+    });
+
+    $('body').css('overflow', 'hidden');
 }
+
 function layerPopClose(){
 	$(".popLayer").hide().unwrap( '');
 	$('body').css('overflow','auto');
 	$(".popLayer video").each(function() { this.pause(); this.load(); });
 }
 function layerPopClose2(popName){
-	$("#"+ popName).hide().unwrap( '');
-	$('body').css('overflow','auto');
+    $("#" + popName).fadeOut(300, function() {
+        if ($(this).parent().hasClass('overlay_t')) {
+            $(this).unwrap(); // 매개변수 제거
+        }
+    });
+    $('body').css('overflow', 'auto');
 }
 
 function openCommentUpdatePopup(id) {
@@ -56,10 +80,10 @@ function updateComment(id) {
 
     const articleId = document.getElementById('article-id').value;
     const params = {
-        id: id,
-        articleId: document.getElementById('article-id').value,
-        commentContent: commentContent,
-        author: author
+        // id : id,
+        // articleId : articleId,
+        commentContent : content.value,
+        // author : writer.value
     }
 
     $.ajax({
@@ -71,7 +95,7 @@ function updateComment(id) {
         async: false,
         success: function(response) {
             alert('수정되었습니다.');
-            closeCommentUpdatePopup;
+            closeCommentUpdatePopup();
             findAllComment();
         },
         error: function(request, status, error) {
@@ -117,7 +141,7 @@ function findAllComment() {
                             <button type="button" onclick="openCommentUpdatePopup(${row.id})" class="btn">
                                 <span class="icons icon_modify">수정</span>
                             </button>
-                            <button type="button" class="btn">
+                            <button type="button" onclick="deleteComment(${row.id})"class="btn">
                                 <span class="icons icon_del">삭제</span>
                             </button>
                         </p>
@@ -133,6 +157,29 @@ function findAllComment() {
             }
         }
     });
+}
+
+function deleteComment(id) {
+
+    if ( !confirm('선택하신 댓글을 삭제할까요?') ) {
+        return false;
+    }
+
+    const articleId = document.getElementById('article-id').value;
+
+    $.ajax({
+        url : `/api/articles/${articleId}/comments/${id}`,
+        type : 'delete',
+        // dataType : 'json',
+        async : false,
+        success : function (response) {
+            alert('삭제되었습니다.');
+            findAllComment();
+        },
+        error : function (request, status, error) {
+            console.log(error)
+        }
+    })
 }
 
 // 댓글 등록 이벤트

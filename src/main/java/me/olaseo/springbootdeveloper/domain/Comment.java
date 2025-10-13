@@ -22,7 +22,7 @@ public class Comment { // Article 객체 생성
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(/*fetch = FetchType.LAZY,*/optional = false)
     @JoinColumn(
             name = "articleId",      // DB 컬럼명 관례에 맞춰서_ snake_case
             nullable = false          // not null 제약
@@ -53,5 +53,6 @@ public class Comment { // Article 객체 생성
     // 내용 변경시 this로 변경.
    public void update(String commentContent, LocalDateTime updatedAt) {
         this.commentContent = commentContent;
+        this.updatedAt = updatedAt;
     }
 }

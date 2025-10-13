@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import me.olaseo.springbootdeveloper.domain.Article;
 import me.olaseo.springbootdeveloper.domain.Comment;
 import me.olaseo.springbootdeveloper.dto.AddCommentRequest;
-import me.olaseo.springbootdeveloper.dto.UpdateArticleRequest;
+import me.olaseo.springbootdeveloper.dto.CommentRequest;
+import me.olaseo.springbootdeveloper.dto.CommentResponse;
 import me.olaseo.springbootdeveloper.dto.UpdateCommentRequest;
 import me.olaseo.springbootdeveloper.repository.BlogRepository;
 import me.olaseo.springbootdeveloper.repository.CommentRepository;
@@ -54,7 +55,7 @@ public class CommentService {
                 .orElseThrow(()-> new IllegalArgumentException("not found :" + id));
 
         authorizeCommentAuthor(comment);
-        comment.update(request.getContent(), request.getUpdatedAt());
+        comment.update(request.getCommentContent(), request.getUpdatedAt());
 
         return comment;
     }
