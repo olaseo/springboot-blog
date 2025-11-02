@@ -1,10 +1,7 @@
 package me.olaseo.springbootdeveloper.repository;
 
-import me.olaseo.springbootdeveloper.domain.User;
+import me.olaseo.springbootdeveloper.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public interface CommentRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email); // email로 사용자 정보를 가져옴
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 }

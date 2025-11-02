@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -17,18 +15,22 @@ import java.time.LocalDateTime;
 @Entity // 엔티티로 지정
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article { // Article 객체 생성
+public class Comment { // Article 객체 생성
 
     @Id // id 필드를 기본키로 지정.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "title", nullable = false) // 'title'이라는 not null 컬럼과 매핑
-    private String title;
+    @ManyToOne(/*fetch = FetchType.LAZY,*/optional = false)
+    @JoinColumn(
+            name = "articleId",      // DB 컬럼명 관례에 맞춰서_ snake_case
+            nullable = false          // not null 제약
+    )
+    private Article articleId;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "commentContent", nullable = false)
+    private String commentContent;
 
     @Column(name = "author", nullable = false)
     private String author;
@@ -42,15 +44,15 @@ public class Article { // Article 객체 생성
     private LocalDateTime updatedAt;
 
     @Builder // 빌더 패턴으로 객체 생성
-    public Article(String author, String title, String content) {
+    public Comment(Article articleId, String commentContent, String author) {
+        this.articleId = articleId;
+        this.commentContent = commentContent;
         this.author = author;
-        this.title = title;
-        this.content = content;
     }
 
     // 내용 변경시 this로 변경.
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
+   public void update(String commentContent, LocalDateTime updatedAt) {
+        this.commentContent = commentContent;
+        this.updatedAt = updatedAt;
     }
 }
